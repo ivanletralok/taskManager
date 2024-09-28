@@ -1,0 +1,106 @@
+<div class="fixed top-0 left-0 right-0 m-1 bg-white shadow-md p-2 z-10 font-medium">
+  <h3>
+    Cantidad De Tareas Agregadas:
+    <span class="text-blue-500 text-base mr-2">{{ (tasks$ | async)?.length }}</span>
+    <a class="underline text-green-600" routerLink="/tasks">Ver Tareas</a>
+  </h3>
+</div>
+
+<form [formGroup]="taskForm" (ngSubmit)="saveTask()"
+  class="mt-16 space-y-2 max-w-xl mx-auto p-4 bg-white rounded-lg shadow-md ">
+  <div class="flex flex-col space-y-2">
+    <label for="name" class="text-lg font-semibold text-gray-700">
+      Nombre de la Tarea
+    </label>
+    <input id="name" formControlName="name" type="text"
+      class="px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-500 focus:border-indigo-500"
+      placeholder="Ingrese el nombre de la tarea" />
+
+    <app-error-message [control]="taskForm.get('name')"></app-error-message>
+  </div>
+
+  <!-- Limit Date -->
+  <div class="flex flex-col space-y-2">
+    <label for="deadline" class="text-lg font-semibold text-gray-700">
+      Fecha Límite
+    </label>
+    <input id="deadline" formControlName="deadline" type="date"
+      class="px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-500 focus:border-indigo-500" />
+
+    <app-error-message [control]="taskForm.get('deadline')"></app-error-message>
+  </div>
+
+  <!-- Validate one Person -->
+  <app-error-message [control]="taskForm.get('people')"></app-error-message>
+
+  <!-- People FormArray -->
+  <div formArrayName="people" class="space-y-4 max-h-96 overflow-y-auto">
+    <div *ngFor="let person of people.controls; let i = index" [formGroupName]="i"
+      class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+      <h3 class="text-xl font-semibold text-gray-800">Persona {{ i + 1 }}</h3>
+
+      <!-- Name Person -->
+      <div class="flex flex-col space-y-2 mt-2">
+        <label for="name" class="text-sm font-medium text-gray-600">
+          Nombre
+        </label>
+        <input id="name" formControlName="name" type="text"
+          class="px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-500 focus:border-indigo-500"
+          placeholder="Nombre de la persona" />
+
+        <app-error-message [control]="people.at(i).get('name')"></app-error-message>
+      </div>
+
+      <!-- Ege person -->
+      <div class="flex flex-col space-y-2 mt-2">
+        <label for="age" class="text-sm font-medium text-gray-600">Edad</label>
+        <input id="age" formControlName="age" type="number"
+          class="px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-500 focus:border-indigo-500"
+          placeholder="Edad de la persona" />
+
+        <app-error-message [control]="people.at(i).get('age')"></app-error-message>
+      </div>
+
+      <!-- Skill FormArray -->
+      <div formArrayName="skills" class="mt-4">
+        <h4 class="text-md font-semibold text-gray-700">Habilidades</h4>
+
+        <app-error-message [control]="getPersonSkills(i)"></app-error-message>
+
+        <div *ngFor="let skill of getPersonSkills(i).controls; let j = index"
+          class=" block items-center space-x-2 mt-2">
+          <input id="skill" [formControlName]="j" type="text"
+            class="px-3 py-2 border border-gray-300 rounded-md flex-1 w-10/12 focus:ring focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="Ingrese habilidad" />
+
+          <button type="button" (click)="removeSkill(i, j)" class="text-red-600 hover:text-red-800 font-semibold">
+            <i class="bi bi-trash3-fill"></i>
+          </button>
+          <app-error-message [control]="skill"></app-error-message>
+
+        </div>
+        <div class="flex gap-4 p-1 justify-between">
+          <button type="button" (click)="addSkill(i)"
+            class="mt-2 text-indigo-600 hover:text-indigo-900 font-semibold flex items-center space-x-1">
+            <i class="bi bi-plus-circle-fill"></i>
+            <span>Agregar Habilidad</span>
+          </button>
+
+          <button type="button" (click)="removePerson(i)" class="text-red-600 hover:text-red-800 font-semibold mt-2">
+            <i class="bi bi-trash3-fill"></i>
+            <span>Eliminar Persona</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button type="button" (click)="addPerson()"
+    class="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700">
+    Agregar Persona
+  </button>
+
+  <button type="submit" class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 mt-4">
+    Guardar Tarea
+  </button>
+</form>

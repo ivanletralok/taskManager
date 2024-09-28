@@ -1,0 +1,14 @@
+<div class="flex gap-2">
+  <p class="font-medium text-base">Filtrar por:</p>
+  <button
+    *ngFor="let filter of filters"
+    (click)="applyFilter(filter.value)"
+    [ngClass]="{
+      'bg-blue-800': selectedFilter === filter.value,
+      'bg-blue-500': selectedFilter !== filter.value
+    }"
+    class="text-white px-2 py-1 rounded hover:bg-blue-600 bg-blue-500"
+  >
+    {{ filter.label }}
+  </button>
+</div>

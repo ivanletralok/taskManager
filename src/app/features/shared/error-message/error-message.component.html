@@ -1,0 +1,3 @@
+<div *ngIf="control?.invalid && control?.touched" class="text-red-600">
+  {{ getErrorMessage(control?.errors || null) }}
+</div>
