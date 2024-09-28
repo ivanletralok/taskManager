@@ -13,7 +13,7 @@ Task Manager es una aplicación de gestión de tareas desarrollada en Angular, q
 ## 🏗️ Instalación y Ejecución
 
 ### Requisitos Previos
-- [Node.js](https://nodejs.org/) (versión 16 o superior)
+- [Node.js](https://nodejs.org/) (versión 18.14.0)
 - [Angular CLI](https://angular.io/cli) (si no lo tienes instalado, puedes hacerlo con `npm install -g @angular/cli`)
 
 ### Pasos para Correr el Proyecto
